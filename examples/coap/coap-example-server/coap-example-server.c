@@ -24,10 +24,6 @@
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-/*
- * CoAP resources
- * Mantemos apenas o que faz sentido para o projeto
- */
 extern coap_resource_t
     res_hello,
     res_mirror,
@@ -38,6 +34,9 @@ extern coap_resource_t
     res_sub,
     res_b1_sep_b2,
     res_custom_led;
+
+/* Declarar o blink_process definido em res-custom-led.c */
+extern struct process blink_process;
 
 #if PLATFORM_HAS_LIGHT
 #include "dev/light-sensor.h"
@@ -55,7 +54,7 @@ extern coap_resource_t res_temperature;
 #endif
 
 PROCESS(er_example_server, "Erbium CoAP Server");
-AUTOSTART_PROCESSES(&er_example_server);
+AUTOSTART_PROCESSES(&er_example_server, &blink_process);
 
 PROCESS_THREAD(er_example_server, ev, data)
 {
