@@ -7,13 +7,12 @@ import asyncio
 from aiohttp import web
 from aiocoap import Context, Message, POST
 
-# ===== CONFIG DOS MOTES =====
 MOTES = {
     "mote1": "coap://[fd00::212:4b00:d77:8403]",
     "mote2": "coap://[fd00::212:4b00:d6a:be83]",
 }
 
-# ===== HANDLER LED =====
+# handler leds
 async def handle_led_control(request):
     try:
         data = await request.json()
@@ -57,11 +56,9 @@ async def handle_led_control(request):
     except Exception as e:
         return web.json_response({"error": str(e)}, status=500)
 
-# ===== INDEX =====
 async def index(request):
     return web.FileResponse("index.html")
 
-# ===== MAIN =====
 def main():
     app = web.Application()
     app.router.add_get("/", index)
