@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Proxy CoAP <-> HTTP para controle de LEDs CC2650 com suporte a blink
+Proxy CoAP <-> HTTP para controle de LEDs CC2650 com suporte a blink e frequência
 """
 
 import asyncio
@@ -19,6 +19,7 @@ async def handle_led_control(request):
         mote = data.get("mote")
         led = data.get("led")
         action = data.get("action")
+        frequency = data.get("frequency", 500)  # frequência padrão 500ms
 
         if not mote or not led or not action:
             return web.json_response({"error": "Campos obrigatórios: mote, led, action"}, status=400)
@@ -32,11 +33,16 @@ async def handle_led_control(request):
         if action not in ("on", "off", "blink"):
             return web.json_response({"error": "Ação inválida"}, status=400)
 
+        # Valida frequência
+        if action == "blink":
+            if frequency < 100 or frequency > 5000:
+                frequency = 500
+        
         # Payload para o mote
         if action == "blink":
-            payload = f"{led}-blink".encode()  # comando para o mote piscar
+            payload = f"{led}-blink:{frequency}".encode()  # red-blink:500
         else:
-            payload = f"{led}-{action}".encode()  # red-on, green-off, etc.
+            payload = f"{led}-{action}".encode()  # red-on, green-off
 
         uri = f"{MOTES[mote]}/actuators/led"
 
@@ -50,6 +56,7 @@ async def handle_led_control(request):
             "mote": mote,
             "led": led,
             "action": action,
+            "frequency": frequency if action == "blink" else None,
             "coap_code": str(res.code)
         })
 
