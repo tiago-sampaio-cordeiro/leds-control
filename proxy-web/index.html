@@ -31,7 +31,7 @@
       }
       .motes-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
         gap: 25px;
       }
       .mote-card {
@@ -45,6 +45,7 @@
         align-items: center;
         margin-bottom: 20px;
         border-bottom: 2px solid #eee;
+        padding-bottom: 15px;
       }
       .mote-icon {
         width: 50px;
@@ -56,6 +57,12 @@
         justify-content: center;
         font-size: 24px;
         margin-right: 15px;
+      }
+      .led-control {
+        margin-bottom: 25px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
       }
       .led-label {
         font-weight: 600;
@@ -100,18 +107,19 @@
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
       }
       button {
         flex: 1;
-        min-width: 70px;
-        padding: 12px 20px;
+        min-width: 60px;
+        padding: 10px 15px;
         border: none;
         border-radius: 8px;
         font-weight: 600;
         cursor: pointer;
         color: white;
         text-transform: uppercase;
+        font-size: 0.85em;
       }
       .btn-on {
         background: #00c851;
@@ -121,6 +129,30 @@
       }
       .btn-blink {
         background: #ff4444;
+      }
+      .frequency-control {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .frequency-control label {
+        font-size: 0.9em;
+        font-weight: 600;
+        color: #333;
+        min-width: 70px;
+      }
+      .frequency-control select {
+        flex: 1;
+        padding: 8px 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .frequency-control select:focus {
+        outline: none;
+        border-color: #667eea;
       }
       .status {
         text-align: center;
@@ -158,45 +190,81 @@
             <div class="mote-icon">📡</div>
             <strong>Mote 1</strong>
           </div>
-          <div class="led-label">
-            <div id="mote1-red-indicator" class="led-indicator red off"></div>
-            LED Vermelho
-          </div>
-          <div class="button-group">
-            <button class="btn-on" onclick="controlLED('mote1','red','on')">
-              ON
-            </button>
-            <button class="btn-off" onclick="controlLED('mote1','red','off')">
-              OFF
-            </button>
-            <button
-              class="btn-blink"
-              onclick="controlLED('mote1','red','blink')"
-            >
-              PISCAR
-            </button>
+
+          <!-- LED Vermelho -->
+          <div class="led-control">
+            <div class="led-label">
+              <div id="mote1-red-indicator" class="led-indicator red off"></div>
+              LED Vermelho
+            </div>
+            <div class="button-group">
+              <button class="btn-on" onclick="controlLED('mote1','red','on')">
+                ON
+              </button>
+              <button class="btn-off" onclick="controlLED('mote1','red','off')">
+                OFF
+              </button>
+              <button
+                class="btn-blink"
+                onclick="controlLED('mote1','red','blink')"
+              >
+                PISCAR
+              </button>
+            </div>
+            <div class="frequency-control">
+              <label>Velocidade:</label>
+              <select
+                id="mote1-red-freq"
+                onchange="controlLED('mote1','red','blink')"
+              >
+                <option value="200">Muito Rápido (200ms)</option>
+                <option value="300">Rápido (300ms)</option>
+                <option value="500" selected>Normal (500ms)</option>
+                <option value="800">Lento (800ms)</option>
+                <option value="1200">Muito Lento (1200ms)</option>
+              </select>
+            </div>
           </div>
 
-          <div class="led-label">
-            <div
-              id="mote1-green-indicator"
-              class="led-indicator green off"
-            ></div>
-            LED Verde
-          </div>
-          <div class="button-group">
-            <button class="btn-on" onclick="controlLED('mote1','green','on')">
-              ON
-            </button>
-            <button class="btn-off" onclick="controlLED('mote1','green','off')">
-              OFF
-            </button>
-            <button
-              class="btn-blink"
-              onclick="controlLED('mote1','green','blink')"
-            >
-              PISCAR
-            </button>
+          <!-- LED Verde -->
+          <div class="led-control">
+            <div class="led-label">
+              <div
+                id="mote1-green-indicator"
+                class="led-indicator green off"
+              ></div>
+              LED Verde
+            </div>
+            <div class="button-group">
+              <button class="btn-on" onclick="controlLED('mote1','green','on')">
+                ON
+              </button>
+              <button
+                class="btn-off"
+                onclick="controlLED('mote1','green','off')"
+              >
+                OFF
+              </button>
+              <button
+                class="btn-blink"
+                onclick="controlLED('mote1','green','blink')"
+              >
+                PISCAR
+              </button>
+            </div>
+            <div class="frequency-control">
+              <label>Velocidade:</label>
+              <select
+                id="mote1-green-freq"
+                onchange="controlLED('mote1','green','blink')"
+              >
+                <option value="200">Muito Rápido (200ms)</option>
+                <option value="300">Rápido (300ms)</option>
+                <option value="500" selected>Normal (500ms)</option>
+                <option value="800">Lento (800ms)</option>
+                <option value="1200">Muito Lento (1200ms)</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -206,45 +274,81 @@
             <div class="mote-icon">📡</div>
             <strong>Mote 2</strong>
           </div>
-          <div class="led-label">
-            <div id="mote2-red-indicator" class="led-indicator red off"></div>
-            LED Vermelho
-          </div>
-          <div class="button-group">
-            <button class="btn-on" onclick="controlLED('mote2','red','on')">
-              ON
-            </button>
-            <button class="btn-off" onclick="controlLED('mote2','red','off')">
-              OFF
-            </button>
-            <button
-              class="btn-blink"
-              onclick="controlLED('mote2','red','blink')"
-            >
-              PISCAR
-            </button>
+
+          <!-- LED Vermelho -->
+          <div class="led-control">
+            <div class="led-label">
+              <div id="mote2-red-indicator" class="led-indicator red off"></div>
+              LED Vermelho
+            </div>
+            <div class="button-group">
+              <button class="btn-on" onclick="controlLED('mote2','red','on')">
+                ON
+              </button>
+              <button class="btn-off" onclick="controlLED('mote2','red','off')">
+                OFF
+              </button>
+              <button
+                class="btn-blink"
+                onclick="controlLED('mote2','red','blink')"
+              >
+                PISCAR
+              </button>
+            </div>
+            <div class="frequency-control">
+              <label>Velocidade:</label>
+              <select
+                id="mote2-red-freq"
+                onchange="controlLED('mote2','red','blink')"
+              >
+                <option value="200">Muito Rápido (200ms)</option>
+                <option value="300">Rápido (300ms)</option>
+                <option value="500" selected>Normal (500ms)</option>
+                <option value="800">Lento (800ms)</option>
+                <option value="1200">Muito Lento (1200ms)</option>
+              </select>
+            </div>
           </div>
 
-          <div class="led-label">
-            <div
-              id="mote2-green-indicator"
-              class="led-indicator green off"
-            ></div>
-            LED Verde
-          </div>
-          <div class="button-group">
-            <button class="btn-on" onclick="controlLED('mote2','green','on')">
-              ON
-            </button>
-            <button class="btn-off" onclick="controlLED('mote2','green','off')">
-              OFF
-            </button>
-            <button
-              class="btn-blink"
-              onclick="controlLED('mote2','green','blink')"
-            >
-              PISCAR
-            </button>
+          <!-- LED Verde -->
+          <div class="led-control">
+            <div class="led-label">
+              <div
+                id="mote2-green-indicator"
+                class="led-indicator green off"
+              ></div>
+              LED Verde
+            </div>
+            <div class="button-group">
+              <button class="btn-on" onclick="controlLED('mote2','green','on')">
+                ON
+              </button>
+              <button
+                class="btn-off"
+                onclick="controlLED('mote2','green','off')"
+              >
+                OFF
+              </button>
+              <button
+                class="btn-blink"
+                onclick="controlLED('mote2','green','blink')"
+              >
+                PISCAR
+              </button>
+            </div>
+            <div class="frequency-control">
+              <label>Velocidade:</label>
+              <select
+                id="mote2-green-freq"
+                onchange="controlLED('mote2','green','blink')"
+              >
+                <option value="200">Muito Rápido (200ms)</option>
+                <option value="300">Rápido (300ms)</option>
+                <option value="500" selected>Normal (500ms)</option>
+                <option value="800">Lento (800ms)</option>
+                <option value="1200">Muito Lento (1200ms)</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -256,15 +360,22 @@
       async function controlLED(mote, led, action) {
         const status = document.getElementById("status");
         const indicator = document.getElementById(`${mote}-${led}-indicator`);
+        const freqSelector = document.getElementById(`${mote}-${led}-freq`);
 
         try {
           status.className = "status";
           status.textContent = `Enviando comando para ${mote} - LED ${led}...`;
 
+          // Monta o payload com a frequência se for blink
+          let payload = { mote, led, action };
+          if (action === "blink" && freqSelector) {
+            payload.frequency = parseInt(freqSelector.value);
+          }
+
           const res = await fetch("/api/led/control", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ mote, led, action }),
+            body: JSON.stringify(payload),
           });
 
           const data = await res.json();
@@ -276,8 +387,12 @@
           if (action === "off") indicator.classList.add("off");
           if (action === "blink") indicator.classList.add("blink");
 
+          const freqText =
+            action === "blink" && freqSelector
+              ? ` (${freqSelector.value}ms)`
+              : "";
           status.className = "status success";
-          status.textContent = `✔ ${mote} → ${led} ${action}`;
+          status.textContent = `✔ ${mote} → ${led} ${action}${freqText}`;
         } catch (e) {
           status.className = "status error";
           status.textContent = `✖ ${e.message}`;
