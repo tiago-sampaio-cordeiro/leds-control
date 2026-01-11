@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controle de LEDs - CC2650 CoAP</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        width: 100%;
+      }
+      h1 {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+      }
+      .motes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+      }
+      .mote-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+      .mote-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #eee;
+      }
+      .mote-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-right: 15px;
+      }
+      .led-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      .led-indicator {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 10px;
+        display: inline-block;
+        border: 2px solid #ddd;
+        transition: all 0.3s ease;
+      }
+      .red {
+        background: #ff4444;
+        box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+      }
+      .green {
+        background: #00c851;
+        box-shadow: 0 0 10px rgba(0, 200, 81, 0.5);
+      }
+      .off {
+        background: #ddd;
+        box-shadow: none;
+      }
+      .blink {
+        animation: blink 1s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .button-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+      }
+      button {
+        flex: 1;
+        min-width: 70px;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        color: white;
+        text-transform: uppercase;
+      }
+      .btn-on {
+        background: #00c851;
+      }
+      .btn-off {
+        background: #6c757d;
+      }
+      .btn-blink {
+        background: #ff4444;
+      }
+      .status {
+        text-align: center;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+      .status.success {
+        background: #d4edda;
+        color: #155724;
+      }
+      .status.error {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      @media (max-width: 768px) {
+        .motes-grid {
+          grid-template-columns: 1fr;
+        }
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔌 Controle de LEDs CC2650</h1>
+
+      <div class="motes-grid">
+        <!-- Mote 1 -->
+        <div class="mote-card">
+          <div class="mote-header">
+            <div class="mote-icon">📡</div>
+            <strong>Mote 1</strong>
+          </div>
+          <div class="led-label">
+            <div id="mote1-red-indicator" class="led-indicator red off"></div>
+            LED Vermelho
+          </div>
+          <div class="button-group">
+            <button class="btn-on" onclick="controlLED('mote1','red','on')">
+              ON
+            </button>
+            <button class="btn-off" onclick="controlLED('mote1','red','off')">
+              OFF
+            </button>
+            <button
+              class="btn-blink"
+              onclick="controlLED('mote1','red','blink')"
+            >
+              PISCAR
+            </button>
+          </div>
+
+          <div class="led-label">
+            <div
+              id="mote1-green-indicator"
+              class="led-indicator green off"
+            ></div>
+            LED Verde
+          </div>
+          <div class="button-group">
+            <button class="btn-on" onclick="controlLED('mote1','green','on')">
+              ON
+            </button>
+            <button class="btn-off" onclick="controlLED('mote1','green','off')">
+              OFF
+            </button>
+            <button
+              class="btn-blink"
+              onclick="controlLED('mote1','green','blink')"
+            >
+              PISCAR
+            </button>
+          </div>
+        </div>
+
+        <!-- Mote 2 -->
+        <div class="mote-card">
+          <div class="mote-header">
+            <div class="mote-icon">📡</div>
+            <strong>Mote 2</strong>
+          </div>
+          <div class="led-label">
+            <div id="mote2-red-indicator" class="led-indicator red off"></div>
+            LED Vermelho
+          </div>
+          <div class="button-group">
+            <button class="btn-on" onclick="controlLED('mote2','red','on')">
+              ON
+            </button>
+            <button class="btn-off" onclick="controlLED('mote2','red','off')">
+              OFF
+            </button>
+            <button
+              class="btn-blink"
+              onclick="controlLED('mote2','red','blink')"
+            >
+              PISCAR
+            </button>
+          </div>
+
+          <div class="led-label">
+            <div
+              id="mote2-green-indicator"
+              class="led-indicator green off"
+            ></div>
+            LED Verde
+          </div>
+          <div class="button-group">
+            <button class="btn-on" onclick="controlLED('mote2','green','on')">
+              ON
+            </button>
+            <button class="btn-off" onclick="controlLED('mote2','green','off')">
+              OFF
+            </button>
+            <button
+              class="btn-blink"
+              onclick="controlLED('mote2','green','blink')"
+            >
+              PISCAR
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="status" class="status">Pronto.</div>
+    </div>
+
+    <script>
+      async function controlLED(mote, led, action) {
+        const status = document.getElementById("status");
+        const indicator = document.getElementById(`${mote}-${led}-indicator`);
+
+        try {
+          status.className = "status";
+          status.textContent = `Enviando comando para ${mote} - LED ${led}...`;
+
+          const res = await fetch("/api/led/control", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mote, led, action }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) throw new Error(data.error);
+
+          // Atualiza visual
+          indicator.className = `led-indicator ${led}`;
+          if (action === "off") indicator.classList.add("off");
+          if (action === "blink") indicator.classList.add("blink");
+
+          status.className = "status success";
+          status.textContent = `✔ ${mote} → ${led} ${action}`;
+        } catch (e) {
+          status.className = "status error";
+          status.textContent = `✖ ${e.message}`;
+        }
+      }
+    </script>
+  </body>
+</html>

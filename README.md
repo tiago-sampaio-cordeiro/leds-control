@@ -25,14 +25,50 @@ Contiki-NG started as a fork of the Contiki OS and retains some of its original 
 
 Find out more:
 
-* GitHub repository: https://github.com/contiki-ng/contiki-ng
-* Documentation: https://docs.contiki-ng.org/
-* List of releases and changes: https://github.com/contiki-ng/contiki-ng/releases
-* Web site: http://contiki-ng.org
+- GitHub repository: https://github.com/contiki-ng/contiki-ng
+- Documentation: https://docs.contiki-ng.org/
+- List of releases and changes: https://github.com/contiki-ng/contiki-ng/releases
+- Web site: http://contiki-ng.org
 
 Engage with the community:
 
-* Discussions on GitHub: https://github.com/contiki-ng/contiki-ng/discussions
-* Contiki-NG tag on Stack Overflow: https://stackoverflow.com/questions/tagged/contiki-ng
-* Gitter: https://gitter.im/contiki-ng
-* Twitter: https://twitter.com/contiki_ng
+- Discussions on GitHub: https://github.com/contiki-ng/contiki-ng/discussions
+- Contiki-NG tag on Stack Overflow: https://stackoverflow.com/questions/tagged/contiki-ng
+- Gitter: https://gitter.im/contiki-ng
+- Twitter: https://twitter.com/contiki_ng
+
+---
+
+## Projeto Adicional: Controle de LEDs via Proxy CoAP/HTTP
+
+Este fork inclui funcionalidades adicionais desenvolvidas para controlar LEDs em motes CC2650:
+
+### Funcionalidades implementadas
+
+- Recurso CoAP para controle de LEDs (res_custom_led.c)
+  - Ligar/desligar LEDs vermelho e verde
+- Servidor CoAP de exemplo (coap-example-server.c) integrado ao recurso de LED
+- Proxy Python (proxy.py) para expor interface HTTP
+  - Endpoint POST `/api/led/control` para enviar comandos aos motes
+- Interface web (index.html) para controlar LEDs pelo navegador ou celular
+
+### Estrutura do projeto adicional
+
+leds-control/
+/proxy-web
+proxy.py
+index.html
+/examples
+/rpl-border-router
+/border-router.c
+/coap-example-server
+coap-example-server.c
+/resources
+res-custom-led.c
+
+### Como usar
+
+- **Requisitos**
+
+Motes LAUNCHXL-CC2650 Texas instruments
+Code composer Studio 12.8.1 para garantir a gravação nos motes

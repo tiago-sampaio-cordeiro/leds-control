@@ -27,6 +27,8 @@ build
 tools/coffee-manager/build/
 tools/coffee-manager/coffee.jar
 COOJA.testlog
+__pycache__/
+
 
 # do not ignore images in documentation
 !tools/readthedocs/**/*.png
